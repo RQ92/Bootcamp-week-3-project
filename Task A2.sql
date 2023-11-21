@@ -12,15 +12,16 @@ from Seattle_cycles_station
 where decommission_date is not null -- this shows the stations which have been decomission
 
 --4)
-select count(*) as "NoOfDecomStats" -- this counts the number of stations which have a decommisioned date
+select count(*) as "NoOfDecomStats", sum(install_dockcount) as "NoOfDecomDocks" -- this counts the number of stations which have a decommisioned date
 from Seattle_cycles_station
 where decommission_date is not null
+
 --5)
 select min(install_date) as "earliest install date", max(install_date) as "latest install date"
 from Seattle_cycles_station -- we get the earliest and latest install date
 
 --6)
-select count(distinct(trip_id)) as "UniqueTrips", count(*) as "RowCount"
+select count(distinct(trip_id)) as "UniqueTrips", count(trip_id) as "RowCount"
 from Seattle_cycles_trip -- returns unique trips and the total row count
 
 --7)
@@ -59,10 +60,10 @@ from Seattle_cycles_trip
 where from_station_name = to_station_name
 
 --13)
-select count(distinct(bikeid)) as NoOfBikes, usertype 
+select count(distinct(bikeid)) as NoOfBikes, usertype, YEAR(starttime)
 from Seattle_cycles_trip -- returns the number of unique bikes rented by Short Terms
 where usertype = 'Short-Term Pass Holder'
-group by usertype
+group by usertype, year(starttime)
 
 --14)
 select Min(date) as EarliestDate, Max(date) as LatestDate
@@ -74,10 +75,10 @@ from Seattle_weather_daily -- returns the daily temp diff and orders by largest 
 order by TempDiff desc
 
 --16)
-select avg(Mean_Humidity) as AvgHumidity, Month(date) as "Month", year(date) as "Year"
+select avg(Mean_Humidity) as AvgHumidity, format(date, 'yyyy MM')
 from Seattle_weather_daily
-group by Month(date), Year(date) -- returns the average humidity of each month
-order by avg(Mean_Humidity) desc
+group by format(date, 'yyyy MM') -- returns the average humidity of each month
+order by format(date, 'yyyy MM')
 
 --17) 
 select max(Max_Wind_Speed_MPH) as MaxWindSpeed, month(date) as Month
@@ -93,7 +94,7 @@ where events is not null
 and events <> 'Rain'
 
 --19)
-select sum(Precipitation_In) as TotalRainfall, year(date) as year -- total rainfall in first 3 months of 2016
+select sum(Precipitation_In) as TotalRainfall, year(date) as Year -- total rainfall in first 3 months of 2016
 from Seattle_weather_daily
 where month(date) In(1,2,3) and year(date)= 2016
 group by year(date) -- group by year so the sum is showed as one figure for all 3 months
