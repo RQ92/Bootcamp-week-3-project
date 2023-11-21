@@ -26,4 +26,33 @@ from Seattle_cycles_trip
 group by from_station_name -- this allows us to get the count for each station
 order by TripCount desc -- order from largest to smallest
 
+select *
+from Seattle_cycles_trip
+where gender = 'Male'
+and usertype = 'Member'
+
+select count(*) -- returns the number of rows which contain a birth year
+from Seattle_cycles_trip
+where birthyear is not null
+
+select 2023 - max(birthyear) as "YoungestRider" -- this returns the current age of the youngest rider
+from Seattle_cycles_trip
+
+--12)
+select count(trip_id) -- this counts the number of trips which start and end at the same station
+from Seattle_cycles_trip
+where from_station_id = to_station_id
+
+select count(trip_id) -- this checks the previous query is correct
+from Seattle_cycles_trip
+where from_station_name = to_station_name
+
+--13)
+select count(distinct(bikeid)) as NoOfBikes, usertype 
+from Seattle_cycles_trip -- returns the number of unique bikes rented by Short Terms
+where usertype = 'Short-Term Pass Holder'
+group by usertype
+
+--14)
 select
+from Seattle_weather_conditions
