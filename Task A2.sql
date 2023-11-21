@@ -1,10 +1,12 @@
+--1)
 select count(*) as "RowCount"-- counts the number of rows in this table
 from Seattle_cycles_station
 
+--2)
 select count(distinct(station_id)) as "DistinctIDs" -- counts the number of unique station IDs (all are unique)
 from Seattle_cycles_station
 
-
+--3)
 select name, decommission_date
 from Seattle_cycles_station
 where decommission_date is not null -- this shows the stations which have been decomission
@@ -26,16 +28,19 @@ select AVG(tripduration / 60) as "TripDurationMins"
 from Seattle_cycles_trip -- converts the tripduration column to minutes
 
 --8)
-select count(distinct(trip_id)) as "TripCount", from_station_name -- counts the number of unique trips per station
+select top 1 count(distinct(trip_id)) as "TripCount", from_station_name -- counts the number of unique trips per station
 from Seattle_cycles_trip
 group by from_station_name -- this allows us to get the count for each station
 order by TripCount desc -- order from largest to smallest
 
-select *
+--9)
+select count(*)
 from Seattle_cycles_trip
 where gender = 'Male'
 and usertype = 'Member'
+and year(starttime) = 2015
 
+--10)
 select count(*) -- returns the number of rows which contain a birth year
 from Seattle_cycles_trip
 where birthyear is not null
