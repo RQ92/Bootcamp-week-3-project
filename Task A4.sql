@@ -15,7 +15,7 @@ where from_station_id = 'WF-01'
 group by from_station_id -- average trip duration was 35 minutes
 
 -- 2)
-select w.date, count(distinct(t.trip_id)) as NoOfTrip
+select w.date, count(distinct(t.trip_id)) as NoOfTrips
 from Seattle_weather_conditions as w
 join Seattle_cycles_trip as t
 on w.date = convert(date,t.starttime)
@@ -23,16 +23,22 @@ where Events like '%Snow%' -- it snowed on 5 days 2014-11-29, 2015-11-28, 2015-1
 group by w.date
 order by NoOfTrips desc
 
-select w.date, count(distinct(t.trip_id)) as NoOfTrip, datepart(hour,starttime)
+select count(distinct(t.trip_id)) as NoOfTrips, datepart(hour,starttime) as Hour
 from Seattle_weather_conditions as w
 join Seattle_cycles_trip as t
 on w.date = convert(date,t.starttime)
-where Events like '%Snow%' -- it snowed on 5 days 2014-11-29, 2015-11-28, 2015-12-14, 2016-01-03, 2016-01-15
-group by w.date
-order by NoOfTrips desc
+where Events like '%Snow%' and w.date = '2015-12-14'
+group by datepart(hour,starttime)
+order by Hour -- the most trips were taken during commuting times
 
-select datepart(hour,starttime)
-from Seattle_cycles_trip
+select count(distinct(t.trip_id)) as NoOfTrips, usertype
+from Seattle_weather_conditions as w
+join Seattle_cycles_trip as t
+on w.date = convert(date,t.starttime)
+where Events like '%Snow%' and w.date = '2015-12-14'
+group by usertype -- of those trips 236 were taken by members and 24 by short-term pass holders
+
+--3)
 
 
 
