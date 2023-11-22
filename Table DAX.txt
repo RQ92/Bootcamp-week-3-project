@@ -1,0 +1,15 @@
+VAR tDates = CALENDAR(date(2014,01,01),date(2016,12,31))
+
+RETURN addcolumns(tDates,
+
+    "Year",format([Date],"YYYY"),
+
+    "MonthName",format([Date],"MMM YYYY"),
+
+    "MonthSort",format([Date],"yyyy mm"),
+
+    "Month",format([Date],"mm"),
+
+    "Day",format([Date],"dd"),
+
+           "Weekday",format([Date],"dddd"))
