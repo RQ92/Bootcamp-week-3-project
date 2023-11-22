@@ -39,9 +39,20 @@ where Events like '%Snow%' and w.date = '2015-12-14'
 group by usertype -- of those trips 236 were taken by members and 24 by short-term pass holders
 
 --3)
+select name, current_dockcount
+from Seattle_cycles_station
+where current_dockcount < 15 and current_dockcount <> 0 -- Less than 15 docks: 2nd Ave & Blanchard St, Bellevue Ave & E Pine St, 
+-- Burke Museum / E Stevens Way NE & Memorial Way NE, UW Engineering Library / E Stevens Way NE & Jefferson Rd, UW Intramural Activities Building
 
+select count(distinct(tr.trip_id))
+from Seattle_cycles_station as sta
+join Seattle_cycles_trip as tr
+on  sta.station_id = tr.to_station_id
+where sta.current_dockcount < 15 and current_dockcount <> 0 -- returns all trips that ended at stations with less than 15 docks
+--where tr.to_station_id = 'BT-05' or tr.to_station_id = 'CH-12' or tr.to_station_id = 'UW-02' or tr.to_station_id = 'UW-06' or tr.to_station_id = 'UW-07'
 
-
+select
+from 
 
 
 
